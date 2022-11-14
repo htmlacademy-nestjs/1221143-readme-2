@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Никита Крымов](https://up.htmlacademy.ru/nodejs-2/2/user/1221143).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Решетников](https://htmlacademy.ru/profile/id1919895).
 
 ---
 
