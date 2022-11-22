@@ -2,10 +2,23 @@ import { CRUDRepository } from '@readme/core';
 import { User } from '@readme/shared-types';
 import { BlogUserEntity } from './blog-user.entity';
 import * as crypto from 'crypto';
+import { Injectable } from '@nestjs/common';
 
 
+@Injectable()
 export class BlogUserMemoryRepository implements CRUDRepository<BlogUserEntity, string, User> {
   private repository: {[key: string]: User} = {};
+
+  public async findByEmail(email: string): Promise<User> {
+    const existUser = Object.values(this.repository)
+      .find((userItem) => userItem.email === email);
+
+      if (!existUser) {
+        return null;
+      }
+
+      return { ...existUser}
+  }
 
   public async findById(id: string): Promise<User> {
     if (this.repository[id]) {
@@ -17,6 +30,7 @@ export class BlogUserMemoryRepository implements CRUDRepository<BlogUserEntity, 
   public async create(item: BlogUserEntity): Promise<User> {
     const entry = { ...item.toOblject(), _id: crypto.randomUUID() }
     this.repository[entry._id] = entry;
+    console.log(this.repository);
     return { ...entry };
   }
 

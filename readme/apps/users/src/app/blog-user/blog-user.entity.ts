@@ -9,20 +9,23 @@ export class BlogUserEntity implements User {
   public firstName: string;
   public lastName: string;
   public avatar: string;
-  public role: string;
   public passwordHash: string;
+
+  constructor(blogUser: User) {
+    this.fillEntity(blogUser);
+  }
 
   public toOblject() {
     return {...this}; // получение чистых данных из нашей сущности как объект
   }
 
-  public async setPassword(password: string): Promise<BlogUserEntity> { // передаём чистый пороль пользователя и хэшируем его
+  public async setPassword(password: string): Promise<BlogUserEntity> { // передаём чистый пароль пользователя и хэшируем его
     const salt = await genSalt(SALT_ROUNDS);
     this.passwordHash = await hash(password, salt);
     return this;
   }
 
-  public async comparePassword(password: string): Promise<boolean> {
+  public async comparePassword(password: string): Promise<boolean> { // сравниваем пароль и хэш
     return compare(password, this.passwordHash);
   }
 
@@ -32,7 +35,6 @@ export class BlogUserEntity implements User {
     this.firstName = blogUser.firstName;
     this.lastName = blogUser.lastName;
     this.avatar = blogUser.avatar;
-    this.role = blogUser.role;
     this.passwordHash = blogUser.passwordHash;
   }
 }
